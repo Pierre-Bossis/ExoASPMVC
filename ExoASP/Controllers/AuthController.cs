@@ -50,13 +50,14 @@ namespace ExoASP.Controllers
                     Nom = registerForm.Nom,
                     Prenom = registerForm.Prenom,
                     Email = registerForm.Email,
+                    //PasswordHash est initialisé avec le résultat du hachage du mot de passe
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerForm.Password)),
+                    //PasswordSalt est initialisé avec la clé utilisée pour le hachage du mot de passe
                     PasswordSalt = hmac.Key
                 };
                 _context.users.Add(user);
                 await _context.SaveChangesAsync();
 
-                //Méthode utilisée pour se connecter après inscription
                 SignIn(user);
                 return RedirectToAction("Index", "Home");
             }
@@ -85,6 +86,7 @@ namespace ExoASP.Controllers
             //décrypte le hashage
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
+            //Hash du password reçu pour vérifier dans une boucle que tous les octets sont identiques, Si une différence est détectée c'est que c'est pas bon
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginForm.Password));
 
             for (int i = 0; i < computedHash.Length; i++)
@@ -96,8 +98,6 @@ namespace ExoASP.Controllers
                 }
 
             }
-
-            //Méthode utilisée pour se connecter après vérification
             SignIn(user);
             return RedirectToAction("Index", "Home");
         }
@@ -109,18 +109,25 @@ namespace ExoASP.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        /// <summary>
+        /// Créé les revendications et l'identité de l'utilisateur ET le connecte sur l'application.
+        /// </summary>
+        /// <param name="user"></param>
         private void SignIn(User user)
         {
+            //créé la liste des revendications de l'user
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, $"{user.Prenom} {user.Nom}"),
                 // Ajoutez d'autres revendications au besoin
             };
-
+            //Une identité est créée en utilisant la liste de revendications (claims) et le schéma d'authentification(voir program.cs)
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            //Représentation de l'Identité de l'Utilisateur
             var principal = new ClaimsPrincipal(identity);
 
+            //log l'User dans l'application
             HttpContext?.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
