@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\p.bossis\\source\\repos\\ExoASP\\ExoASP\\ExoASP.csproj": {}
+    "C:\\Users\\user\\source\\repos\\ExoASPMVC\\ExoASP\\ExoASP.csproj": {}
   },
   "projects": {
-    "C:\\Users\\p.bossis\\source\\repos\\ExoASP\\ExoASP\\ExoASP.csproj": {
+    "C:\\Users\\user\\source\\repos\\ExoASPMVC\\ExoASP\\ExoASP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\p.bossis\\source\\repos\\ExoASP\\ExoASP\\ExoASP.csproj",
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\ExoASPMVC\\ExoASP\\ExoASP.csproj",
         "projectName": "ExoASP",
-        "projectPath": "C:\\Users\\p.bossis\\source\\repos\\ExoASP\\ExoASP\\ExoASP.csproj",
-        "packagesPath": "C:\\Users\\p.bossis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\p.bossis\\source\\repos\\ExoASP\\ExoASP\\obj\\",
+        "projectPath": "C:\\Users\\user\\source\\repos\\ExoASPMVC\\ExoASP\\ExoASP.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\ExoASPMVC\\ExoASP\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\p.bossis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -47,6 +45,20 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.22, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.22, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.22, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[6.0.16, )"
@@ -71,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

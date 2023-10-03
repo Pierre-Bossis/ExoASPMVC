@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExoASP.Models.Forms
 {
@@ -7,15 +8,20 @@ namespace ExoASP.Models.Forms
         [Required(ErrorMessage = $"Champ {nameof(Nom)} requis.")]
         [MinLength(1)]
         public string Nom { get; set; }
+
         [Required(ErrorMessage = $"Champ {nameof(Prenom)} requis.")]
         [MinLength(1)]
         public string Prenom { get; set; }
+
         [Required(ErrorMessage = $"Champ {nameof(Email)} requis.")]
         [EmailAddress]
         public string Email { get; set; }
+
         [Required(ErrorMessage = $"Champ {nameof(Password)} requis.")]
         [MinLength(8)]
         public string Password { get; set; }
+
+        [NotMapped]
         [Compare(nameof(Password))]
         public string Confirmation { get; set; }
     }
