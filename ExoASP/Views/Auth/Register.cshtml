@@ -14,7 +14,7 @@
             <label asp-for="Nom">Nom :</label>
             <input type="text" class="form-control" asp-for="Nom" />
             <div>
-                <span asp-validation-for="Nom" class="text-danger" />
+                <span asp-validation-for="Nom" class="text-danger"></span>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <label asp-for="Prenom">prenom :</label>
             <input type="text" class="form-control" asp-for="Prenom" />
             <div>
-                <span asp-validation-for="Prenom" class="text-danger" />
+                <span asp-validation-for="Prenom" class="text-danger"></span>
             </div>
         </div>
 
@@ -30,7 +30,7 @@
             <label asp-for="Email">Email :</label>
             <input type="email" class="form-control" asp-for="Email" />
             <div>
-                <span asp-validation-for="Email" class="text-danger" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
 
@@ -38,7 +38,7 @@
             <label asp-for="Password">Password :</label>
             <input type="password" class="form-control" asp-for="Password" />
             <div>
-                <span asp-validation-for="Password" class="text-danger" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
         </div>
 
@@ -46,11 +46,15 @@
             <label asp-for="Confirmation">Confirmation :</label>
             <input type="password" class="form-control" asp-for="Confirmation" />
             <div>
-                <span asp-validation-for="Confirmation" class="text-danger" />
+                <span asp-validation-for="Confirmation" class="text-danger"></span>
             </div>
         </div>
+
         <br/>
-        <button type="submit" class="btn btn-primary">Send</button>
+
+        <div class="form-group">
+            <input type="submit"  value="send" class="btn btn-primary" />
+        </div>
     </form>
 </div>
 
