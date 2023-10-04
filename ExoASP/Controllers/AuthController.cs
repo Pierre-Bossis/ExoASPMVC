@@ -1,5 +1,4 @@
 ﻿using ExoASP.Data;
-using ExoASP.Models;
 using ExoASP.Models.Entities;
 using ExoASP.Models.Forms;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,9 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 
 namespace ExoASP.Controllers
 {
@@ -18,12 +15,11 @@ namespace ExoASP.Controllers
     {
         private readonly DataContext _context;
 
-        private readonly IHttpContextAccessor _httpContext;
 
-        public AuthController(DataContext context, IHttpContextAccessor httpContext)
+
+        public AuthController(DataContext context)
         {
             _context = context;
-            _httpContext = httpContext;
 
         }
 
@@ -63,8 +59,6 @@ namespace ExoASP.Controllers
             }
             return View();
         }
-
-
 
 
         public IActionResult Login()

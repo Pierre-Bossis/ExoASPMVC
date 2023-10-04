@@ -11,5 +11,10 @@ namespace ExoASP.Data
         }
 
         public DbSet<User> users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+        }
     }
 }

@@ -21,7 +21,6 @@ namespace ExoASP.Models.Forms
         [MinLength(8)]
         public string Password { get; set; }
 
-        [NotMapped]
         [Compare(nameof(Password))]
         public string Confirmation { get; set; }
     }
