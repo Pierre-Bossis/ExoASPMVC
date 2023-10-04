@@ -1,4 +1,5 @@
-﻿using ExoASP.Models.Entities;
+﻿using ExoASP.Models.Congifs;
+using ExoASP.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExoASP.Data
@@ -14,7 +15,7 @@ namespace ExoASP.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfig());
         }
     }
 }
