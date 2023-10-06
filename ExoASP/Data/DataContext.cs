@@ -11,11 +11,15 @@ namespace ExoASP.Data
 
         }
 
-        public DbSet<User> users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Game> games { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfig());
+            modelBuilder.ApplyConfiguration(new GameConfig());
         }
+
+
     }
 }

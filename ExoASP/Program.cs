@@ -1,4 +1,6 @@
 using ExoASP.Data;
+using ExoASP.Data.Repositories;
+using ExoASP.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +26,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Home/Index";
     });
+builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<IGameRepository,GameRepository>();
 
 var app = builder.Build();
 

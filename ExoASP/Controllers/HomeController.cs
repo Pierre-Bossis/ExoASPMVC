@@ -18,7 +18,6 @@ namespace ExoASP.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            //ViewData.Add("go", 5);
             return View();
         }
 

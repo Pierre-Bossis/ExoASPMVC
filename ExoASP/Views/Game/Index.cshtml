@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Game>
+
+@{
+    ViewData["Title"] = "List Games";
+}
+
+<h1>Liste des jeux</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Editeur</th>
+            <th scope="col">Date de sortie</th>
+            <th scope="col">Date d'ajout</th>
+            <th scope="col">Ajouté par</th>
+        </tr>
+        @foreach (var element in Model)
+        {
+        <tbody>
+            <td class="scope">@element.Nom</td>
+            <td class="scope">@element.Editeur</td>
+            <td class="scope">@element.AnneeDeSortie.ToShortDateString()</td>
+        <td class="scope">@element.DateAjout.ToShortDateString()</td>
+            <td class="scope">@element.User.Prenom @element.User.Nom</td>
+        </tbody>
+        }
+</table>

@@ -1,0 +1,41 @@
+﻿@model ExoASP.Models.Entities.Game
+
+@{
+    ViewData["Title"] = "Create Game";
+}
+
+<h1>Create</h1>
+
+<h4>Game</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nom" class="control-label"></label>
+                <input asp-for="Nom" class="form-control" />
+                <span asp-validation-for="Nom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Editeur" class="control-label"></label>
+                <input asp-for="Editeur" class="form-control" />
+                <span asp-validation-for="Editeur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnneeDeSortie" class="control-label"></label>
+                <input asp-for="AnneeDeSortie" class="form-control" />
+                <span asp-validation-for="AnneeDeSortie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateAjout" class="control-label"></label>
+                <input asp-for="DateAjout" class="form-control" />
+                <span asp-validation-for="DateAjout" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

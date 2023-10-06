@@ -8,18 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using ExoASP.Interfaces;
 
 namespace ExoASP.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IUserRepository _repo;
 
-
-
-        public AuthController(DataContext context)
+        public AuthController(IUserRepository repo)
         {
-            _context = context;
+            _repo = repo;
 
         }
 
@@ -39,21 +38,7 @@ namespace ExoASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                using var hmac = new HMACSHA512();
-
-                var user = new User
-                {
-                    Nom = registerForm.Nom,
-                    Prenom = registerForm.Prenom,
-                    Email = registerForm.Email,
-                    //PasswordHash est initialisé avec le résultat du hachage du mot de passe
-                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerForm.Password)),
-                    //PasswordSalt est initialisé avec la clé utilisée pour le hachage du mot de passe
-                    PasswordSalt = hmac.Key
-                };
-                _context.users.Add(user);
-                await _context.SaveChangesAsync();
-
+                User user = await _repo.Register(registerForm);
                 SignIn(user);
                 return RedirectToAction("Index", "Home");
             }
@@ -69,28 +54,11 @@ namespace ExoASP.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginForm loginForm)
         {
-            var user = await _context.users.SingleOrDefaultAsync(x => x.Email == loginForm.Email);
-
-            if (user is null)
+            User user = await _repo.Login(loginForm);
+            if(user is null)
             {
-                ViewBag.ErrorMessage += "Mauvais Email ou Password";
-                return View();
-            }
-
-            //décrypte le hashage
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            //Hash du password reçu pour vérifier dans une boucle que tous les octets sont identiques, Si une différence est détectée c'est que c'est pas bon
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginForm.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i])
-                {
-                    ViewBag.ErrorMessage += "Mauvais Email ou Password";
-                    return View();
-                }
-
+                ViewBag.ErrorMessage = "Mauvais Login ou Password.";
+                return View(loginForm);
             }
             SignIn(user);
             return RedirectToAction("Index", "Home");
@@ -100,6 +68,7 @@ namespace ExoASP.Controllers
         public async Task<IActionResult> Logout()
         {
             HttpContext?.SignOutAsync();
+            HttpContext?.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
 
@@ -113,6 +82,7 @@ namespace ExoASP.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, $"{user.Prenom} {user.Nom}"),
+                //new Claim(ClaimTypes.NameIdentifier, $"{user.Id}")
                 // Ajoutez d'autres revendications au besoin
             };
             //Une identité est créée en utilisant la liste de revendications (claims) et le schéma d'authentification(voir program.cs)
@@ -123,6 +93,7 @@ namespace ExoASP.Controllers
 
             //log l'User dans l'application
             HttpContext?.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            HttpContext?.Session.SetString("UserId",$"{user.Id}");
         }
     }
 }
