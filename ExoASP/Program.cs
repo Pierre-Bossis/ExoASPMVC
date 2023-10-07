@@ -14,8 +14,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionstring));
 
 //temps que dure une session maximum
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
+    options.Cookie.Name = ".MyApp.Session";
     options.IdleTimeout = TimeSpan.FromMinutes(60);
 });
 
@@ -25,6 +27,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Home/Index";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     });
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IGameRepository,GameRepository>();

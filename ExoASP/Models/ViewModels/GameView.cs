@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ExoASP.Models.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace ExoASP.Models.Entities
+namespace ExoASP.Models.ViewModels
 {
-    public class Game
+    public class GameView
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Id { get; set; }
-        [MinLength(1)]
         public string Nom { get; set; }
-        [MinLength(1)]
         public string Editeur { get; set; }
         public DateTime AnneeDeSortie { get; set; }
         public DateTime DateAjout { get; set; }
@@ -17,6 +16,5 @@ namespace ExoASP.Models.Entities
         public Guid CreatorId { get; set; }
 
         public IEnumerable<UserGame>? JoinUsers { get; set; }
-        //public IEnumerable<User> Users { get; set; }
     }
 }

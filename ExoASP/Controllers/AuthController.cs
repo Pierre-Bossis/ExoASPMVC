@@ -67,7 +67,7 @@ namespace ExoASP.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            HttpContext?.SignOutAsync();
+            HttpContext?.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext?.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
@@ -82,17 +82,24 @@ namespace ExoASP.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, $"{user.Prenom} {user.Nom}"),
-                //new Claim(ClaimTypes.NameIdentifier, $"{user.Id}")
+                new Claim(ClaimTypes.NameIdentifier, $"{user.Id}"),
+                new Claim(ClaimTypes.Email, user.Email)
                 // Ajoutez d'autres revendications au besoin
             };
             //Une identité est créée en utilisant la liste de revendications (claims) et le schéma d'authentification(voir program.cs)
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+            AuthenticationProperties properties = new AuthenticationProperties()
+            {
+                AllowRefresh = true,
+                IsPersistent = true
+            };
+
             //Représentation de l'Identité de l'Utilisateur
             var principal = new ClaimsPrincipal(identity);
 
             //log l'User dans l'application
-            HttpContext?.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            HttpContext?.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,properties);
             HttpContext?.Session.SetString("UserId",$"{user.Id}");
         }
     }

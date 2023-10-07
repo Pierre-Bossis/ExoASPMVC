@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExoASP.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231006074039_Init_Game")]
-    partial class Init_Game
+    [Migration("20231006123603_Game+TableIntermediaire")]
+    partial class GameTableIntermediaire
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,9 @@ namespace ExoASP.Migrations
                     b.Property<DateTime>("AnneeDeSortie")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("UNIQUEIDENTIFIER");
+
                     b.Property<DateTime>("DateAjout")
                         .HasColumnType("datetime2");
 
@@ -48,12 +51,9 @@ namespace ExoASP.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("games");
                 });
@@ -93,15 +93,67 @@ namespace ExoASP.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ExoASP.Models.Entities.UserGame", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAchat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("EstOccasion")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId", "GameId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("UserGame");
+                });
+
             modelBuilder.Entity("ExoASP.Models.Entities.Game", b =>
                 {
-                    b.HasOne("ExoASP.Models.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("ExoASP.Models.Entities.User", "Creator")
+                        .WithMany("AddedGames")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("ExoASP.Models.Entities.UserGame", b =>
+                {
+                    b.HasOne("ExoASP.Models.Entities.Game", "Game")
+                        .WithMany("JoinUsers")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ExoASP.Models.Entities.User", "User")
+                        .WithMany("JoinGames")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ExoASP.Models.Entities.Game", b =>
+                {
+                    b.Navigation("JoinUsers");
+                });
+
+            modelBuilder.Entity("ExoASP.Models.Entities.User", b =>
+                {
+                    b.Navigation("AddedGames");
+
+                    b.Navigation("JoinGames");
                 });
 #pragma warning restore 612, 618
         }

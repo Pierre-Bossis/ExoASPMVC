@@ -16,6 +16,11 @@ namespace ExoASP.Models.Congifs
             builder.Property(x=>x.Prenom).IsRequired().HasMaxLength(30);
             builder.Property(x=>x.Email).IsRequired().HasMaxLength(40);
 
+            //builder.HasMany(u => u.Games)
+            //        .WithMany(g => g.Users)
+            //        .UsingEntity<UserGame>(ug => ug.HasOne<Game>().WithMany(g => g.JoinUsers).HasForeignKey(ug=>ug.GameId),ug=>ug.HasOne<User>().WithMany(u=>u.JoinGames)
+            //        .HasForeignKey(ug=>ug.UserId).OnDelete(DeleteBehavior.Restrict));
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Game>
+﻿@model Tuple<IEnumerable<Game>,User>
 
 @{
     ViewData["Title"] = "List Games";
@@ -13,15 +13,38 @@
             <th scope="col">Date de sortie</th>
             <th scope="col">Date d'ajout</th>
             <th scope="col">Ajouté par</th>
+            <th scope="col">Ajouter</th>
         </tr>
-        @foreach (var element in Model)
+        @foreach (var element in Model.Item1)
         {
         <tbody>
-            <td class="scope">@element.Nom</td>
-            <td class="scope">@element.Editeur</td>
-            <td class="scope">@element.AnneeDeSortie.ToShortDateString()</td>
+        <td class="scope">@element.Nom</td>
+        <td class="scope">@element.Editeur</td>
+        <td class="scope">@element.AnneeDeSortie.ToShortDateString()</td>
         <td class="scope">@element.DateAjout.ToShortDateString()</td>
-            <td class="scope">@element.User.Prenom @element.User.Nom</td>
+        <td class="scope">@element.Creator.Prenom @element.Creator.Nom</td>
+        <td>
+                    @if (Model.Item2.JoinGames != null && Model.Item2.JoinGames.Any(u => u.GameId == element.Id))
+                    {
+                        <p class="text-success">Jeu déjà ajouté !</p>
+                    }
+                    else
+                    {
+                        <form asp-controller="Game" asp-action="AddGameToList" method="post">
+                            <input type="hidden" name="gameId" value="@element.Id" />
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                        </form>
+                    }
+
+        </td>
         </tbody>
         }
 </table>
+
+
+@*@foreach (var e in element.Creator.JoinGames)
+{
+    <td class="scope">@e.Game.Nom</td>
+    <td class="scope">@e.Game.Editeur</td>
+
+}*@

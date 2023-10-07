@@ -19,5 +19,10 @@ namespace ExoASP.Models.Entities
         -> Le salt est d'abord combiné avec le mot de passe donné et ensuite celui ci est hashé.*/
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
+
+        public IEnumerable<Game> AddedGames { get; set; }
+
+        public IEnumerable<UserGame>? JoinGames { get; set; }
+        //public IEnumerable<Game> Games { get; set; }
     }
 }
